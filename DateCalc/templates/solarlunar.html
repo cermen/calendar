@@ -7,53 +7,66 @@
     <title>Document</title>
 </head>
 <body>
+    <script src="../static/jquery-3.6.0.min.js"></script>
     <script>
         function convert() {
-            
+            $("#result").show();
+
+            const mode = $('input[name=mode]:checked').val();
+            if (mode === "SolarToLunar") {
+                const year = $('#year').val()
+                const month = $('#month').val()
+                const day = $('#day').val()
+                $('#result').text('음력 ' + year + '년 ' + month + '월 ' + day + '일');
+            } else if (mode === "LunarToSolar") {
+                const year = $('#year').val()
+                const month = $('#month').val()
+                const day = $('#day').val()
+                $('#result').text('양력 ' + year + '년 ' + month + '월 ' + day + '일');
+            } else {
+                $('#result').text('변환 모드를 선택하세요')
+            }
         }
     </script>
     
     <h1>양/음력 변환</h1>
-    <form action="">
-        <input type="radio" name="mode" value="SolarToLunar" id="SolarToLunar">
-        <label for="SolarToLunar">양력→음력</label>
-        <input type="radio" name="mode" value="LunarToSolar" id="LunarToSolar">
-        <label for="LunarToSolar">음력→양력</label>
-        <br>
-        <input type="text" name="year" id="year" placeholder="연도" size="5">
-        <input type="text" name="month" id="month" placeholder="월" size="5">
-        <input type="text" name="day" id="day" placeholder="일" size="5">
-        <br>
-        <input type="submit" value="변환" onclick="convert()">
+    <!-- form 있는 경우는 추후 구현 예정 -->
+    <input type="radio" name="mode" value="SolarToLunar" id="SolarToLunar">
+    <label for="SolarToLunar">양력→음력</label>
+    <input type="radio" name="mode" value="LunarToSolar" id="LunarToSolar">
+    <label for="LunarToSolar">음력→양력</label>
+    <br>
+    <input type="text" name="year" id="year" placeholder="연도" size="5">
+    <input type="text" name="month" id="month" placeholder="월" size="5">
+    <input type="text" name="day" id="day" placeholder="일" size="5">
+    <br>
+    <input type="submit" value="변환" onclick="convert()">
 
-        <div id='result' style="visibility: hidden;" >
-            YYYY년 MM월 DD일
-        </div>
+    <div id='result' style="display: none;"></div>
+    
+    <!--  구현 예정
+    <select name="year" id="year">
         
-        <!--  구현 예정
-        <select name="year" id="year">
-            
-        </select>
+    </select>
 
-        <select name="month" id="month">
-            <option value="1">1월</option>
-            <option value="2">2월</option>
-            <option value="3">3월</option>
-            <option value="4">4월</option>
-            <option value="5">5월</option>
-            <option value="6">6월</option>
-            <option value="7">7월</option>
-            <option value="8">8월</option>
-            <option value="9">9월</option>
-            <option value="10">10월</option>
-            <option value="11">11월</option>
-            <option value="12">12월</option>
-        </select>
+    <select name="month" id="month">
+        <option value="1">1월</option>
+        <option value="2">2월</option>
+        <option value="3">3월</option>
+        <option value="4">4월</option>
+        <option value="5">5월</option>
+        <option value="6">6월</option>
+        <option value="7">7월</option>
+        <option value="8">8월</option>
+        <option value="9">9월</option>
+        <option value="10">10월</option>
+        <option value="11">11월</option>
+        <option value="12">12월</option>
+    </select>
 
-        <select name="day" id="day">
-            
-        </select>
+    <select name="day" id="day">
+        
+    </select>
     -->
-    </form>
 </body>
 </html>
