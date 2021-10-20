@@ -1,4 +1,9 @@
 const lunarMonthDays = {
+    // 1995: [29, 29, 30, 30, 29, 30, 30, 29, 30, 30, 29, 29, 30],
+    // 1996: [0, 29, 30, 29, 30, 30, 29, 30, 29, 30, 30, 29, 30],
+    // 1997: [0, 29, 29, 30, 29, 30, 29, 30, 30, 29, 30, 30, 29],
+    // 1998: [29, 30, 29, 29, 30, 29, 30, 30, 29, 30, 30, 30, 29],
+    // 1999: [0, 30, 29, 29, 30, 29, 29, 30, 29, 30, 30, 30, 29],
     2000: [0, 30, 30, 29, 29, 30, 29, 29, 30, 29, 30, 30, 29],
     2001: [29, 30, 30, 30, 29, 30, 29, 29, 30, 29, 30, 29, 30],
     2002: [0, 30, 30, 29, 30, 29, 30, 29, 29, 30, 29, 30, 29],
@@ -33,20 +38,21 @@ const lunarMonthDays = {
 }
 
 const leapMonthList = {
+    // 1995: 8, 1998: 5,
     2001: 4, 2004: 2, 2006: 7, 2009: 5,
     2012: 3, 2014: 9, 2017: 5,
     2020: 4, 2023: 2, 2025: 6, 2028: 5
 }
 
 function solarToLunar(solarYear, solarMonth, solarDate) {
-    var lunarYear = 2000;
-    var lunarMonth = 1;
-    var lunarDate = 1;
+    let lunarYear = 2000;
+    let lunarMonth = 1;
+    let lunarDate = 1;
 
     const days = (new Date(solarYear, solarMonth - 1, solarDate) - new Date(2000, 1, 5)) / (1000 * 60 * 60 * 24);
 
-    var dayCount;
-    var temp_month;
+    let dayCount;
+    let temp_month;
     for (dayCount = 0; dayCount < days; dayCount++) {
         if (lunarDate < lunarMonthDays[lunarYear][lunarMonth]) {
             lunarDate++;
@@ -76,15 +82,19 @@ function solarToLunar(solarYear, solarMonth, solarDate) {
 }
 
 function lunarToSolar(lunarYear, lunarMonth, lunarDate) {
-    var solarYear = 2000;
-    var solarMonth = 1;
-    var solarDate = 1;
+    // let daySum = 0;
+    // for (let y = 2000; y < lunarYear; y++) {
+    //     let yearDaySum = lunarMonthDays[y].reduce(function(sum, dayOfMonth){
+    //         return sum += dayOfMonth;
+    //     });
+    //     daySum += yearDaySum;
+    // }
 
     return [lunarYear, lunarMonth, lunarDate];
 }
 
 function convert() {
-    $("#result").show();
+    $('#result').show();
 
     const year = $('#year').val();
     const month = $('#month').val();
@@ -100,4 +110,14 @@ function convert() {
     } else {
         $('#result').text('변환 모드를 선택하세요');
     }
+}
+
+function ableLeapMonth() {
+    const target = document.getElementById('leap-month');
+    target.disabled = false;
+}
+
+function disableLeapMonth() {
+    const target = document.getElementById('leap-month');
+    target.disabled = true;
 }
