@@ -12,15 +12,16 @@
     
     <h1>양/음력 변환</h1>
     <!-- form 있는 경우는 추후 구현 예정 -->
-    <input type="radio" name="mode" value="SolarToLunar" id="SolarToLunar" onclick="disableLeapMonth()">
+    <input type="radio" name="mode" value="solar-to-lunar" id="solar-to-lunar" onclick="disableLeapMonth()">
     <label for="SolarToLunar">양력→음력</label>
-    <input type="radio" name="mode" value="LunarToSolar" id="LunarToSolar" onclick="ableLeapMonth()">
+    <input type="radio" name="mode" value="lunar-to-solar" id="lunar-to-solar" onclick="ableLeapMonth()">
     <label for="LunarToSolar">음력→양력</label>
     <br>
     <input type="text" name="year" id="year" placeholder="연도" size="5">
     <input type="text" name="month" id="month" placeholder="월" size="5">
     <input type="text" name="day" id="day" placeholder="일" size="5">
-    <input type="checkbox" name="leap-month" id="leap-month" disabled>윤달
+    <input type="checkbox" name="leap-month" id="leap-month" disabled>
+    <label for="leap-month">윤달</label>
     <br>
     <input type="submit" value="변환" onclick="convert()">
 
