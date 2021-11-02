@@ -47,32 +47,32 @@ const leapMonthList = {
 function solarToLunar(solarYear, solarMonth, solarDate) {
     let lunarYear = 2000;
     let lunarMonth = 1;
-    let lunarDate = 1;
+    let lunarDate;
 
-    const days = (new Date(solarYear, solarMonth - 1, solarDate) - new Date(2000, 1, 5)) / (1000 * 60 * 60 * 24);
+    const days = (new Date(solarYear, solarMonth - 1, solarDate) - new Date(2000, 1, 4)) / (1000 * 60 * 60 * 24);
 
-    let dayCount;
+    let dayCount = 0;
     let temp_month;
-    for (dayCount = 0; dayCount < days; dayCount++) {
-        if (lunarDate < lunarMonthDays[lunarYear][lunarMonth]) {
-            lunarDate++;
-        } else {
-            if (lunarMonth < 12) {
-                if (lunarMonth === leapMonthList[lunarYear]) {
-                    temp_month = lunarMonth
-                    lunarMonth = 0;
-                } else if (lunarMonth == 0) {
-                    lunarMonth = temp_month + 1;
-                } else {
-                    lunarMonth++;
-                }
+    
+    while (dayCount + lunarMonthDays[lunarYear][lunarMonth] < days) {
+        dayCount += lunarMonthDays[lunarYear][lunarMonth];
+
+        if (lunarMonth < 12) {
+            if (lunarMonth === leapMonthList[lunarYear]) {
+                temp_month = lunarMonth
+                lunarMonth = 0;
+            } else if (lunarMonth === 0) {
+                lunarMonth = temp_month + 1;
             } else {
-                lunarYear++;
-                lunarMonth = 1;
+                lunarMonth++;
             }
-            lunarDate = 1;
+        } else {
+            lunarYear++;
+            lunarMonth = 1;
         }
     }
+
+    lunarDate = days - dayCount;
 
     if (lunarMonth === 0) {
         lunarMonth = '윤' + temp_month;
@@ -84,11 +84,28 @@ function solarToLunar(solarYear, solarMonth, solarDate) {
 function lunarToSolar(lunarYear, lunarMonth, lunarDate) {
     // let daySum = 0;
     // for (let y = 2000; y < lunarYear; y++) {
-    //     let yearDaySum = lunarMonthDays[y].reduce(function(sum, dayOfMonth){
-    //         return sum += dayOfMonth;
-    //     });
+    //     let yearDaySum = lunarMonthDays[y].reduce(accSum);
     //     daySum += yearDaySum;
     // }
+
+    // let monthSum = 0;
+    // if (Object.keys(leapMonthList).indexOf(String(lunarYear)) === -1) {
+    //     monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum);
+    // } else {
+    //     if (lunarMonth < leapMonthList[lunarYear]) {
+    //         monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum) - lunarMonthDays[lunarYear][0];
+    //     } else if (lunarMonth === leapMonthList[lunarYear]) {
+    //         if (document.getElementById('leap-month').checked == true) {
+    //             monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum) - lunarMonthDays[lunarYear][0];
+    //         } else {
+    //             monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum);
+    //         }
+    //     } else {
+    //         monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum);
+    //     }
+    // }
+
+    // daySum += (monthSum + Number(lunarDate));
 
     return [lunarYear, lunarMonth, lunarDate];
 }
@@ -101,10 +118,10 @@ function convert() {
     const day = $('#day').val();
     
     const mode = $('input[name=mode]:checked').val();
-    if (mode === "SolarToLunar") {
+    if (mode === "solar-to-lunar") {
         [lunarYear, lunarMonth, lunarDate] = solarToLunar(year, month, day)
         $('#result').text('음력 ' + lunarYear + '년 ' + lunarMonth + '월 ' + lunarDate + '일');
-    } else if (mode === "LunarToSolar") {
+    } else if (mode === "lunar-to-solar") {
         [solarYear, solarMonth, solarDate] = lunarToSolar(year, month, day)
         $('#result').text('양력 ' + solarYear + '년 ' + solarMonth + '월 ' + solarDate + '일');
     } else {
@@ -120,4 +137,8 @@ function ableLeapMonth() {
 function disableLeapMonth() {
     const target = document.getElementById('leap-month');
     target.disabled = true;
+}
+
+function accSum(sum, value) {
+    return sum += value;
 }
