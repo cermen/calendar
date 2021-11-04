@@ -53,7 +53,7 @@ function solarToLunar(solarYear, solarMonth, solarDate) {
 
     let dayCount = 0;
     let temp_month;
-    
+
     while (dayCount + lunarMonthDays[lunarYear][lunarMonth] < days) {
         dayCount += lunarMonthDays[lunarYear][lunarMonth];
 
@@ -82,32 +82,38 @@ function solarToLunar(solarYear, solarMonth, solarDate) {
 }
 
 function lunarToSolar(lunarYear, lunarMonth, lunarDate) {
-    // let daySum = 0;
-    // for (let y = 2000; y < lunarYear; y++) {
-    //     let yearDaySum = lunarMonthDays[y].reduce(accSum);
-    //     daySum += yearDaySum;
-    // }
+    let dateZero = new Date(2000, 1, 4);
 
-    // let monthSum = 0;
-    // if (Object.keys(leapMonthList).indexOf(String(lunarYear)) === -1) {
-    //     monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum);
-    // } else {
-    //     if (lunarMonth < leapMonthList[lunarYear]) {
-    //         monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum) - lunarMonthDays[lunarYear][0];
-    //     } else if (lunarMonth === leapMonthList[lunarYear]) {
-    //         if (document.getElementById('leap-month').checked == true) {
-    //             monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum) - lunarMonthDays[lunarYear][0];
-    //         } else {
-    //             monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum);
-    //         }
-    //     } else {
-    //         monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum);
-    //     }
-    // }
+    let daySum = 0;
+    for (let y = 2000; y < lunarYear; y++) {
+        let yearDaySum = lunarMonthDays[y].reduce(accSum);
+        daySum += yearDaySum;
+    }
 
-    // daySum += (monthSum + Number(lunarDate));
+    let monthSum = 0;
+    if (Object.keys(leapMonthList).indexOf(String(lunarYear)) === -1) {
+        monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum);
+    } else {
+        if (lunarMonth < leapMonthList[lunarYear]) {
+            monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum) - lunarMonthDays[lunarYear][0];
+        } else if (lunarMonth == leapMonthList[lunarYear]) {
+            const leapMonth = document.getElementById('leap-month');
+            const checked = $(leapMonth).prop('checked');
+            if (checked == false) {
+                monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum) - lunarMonthDays[lunarYear][0];
+            } else {
+                monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum);
+            }
+        } else {
+            monthSum = lunarMonthDays[lunarYear].slice(0, lunarMonth).reduce(accSum);
+        }
+    }
 
-    return [lunarYear, lunarMonth, lunarDate];
+    daySum += (monthSum + Number(lunarDate));
+
+    const solarDate = new Date(dateZero.setDate(dateZero.getDate() + daySum));
+
+    return [solarDate.getFullYear(), solarDate.getMonth() + 1, solarDate.getDate()];
 }
 
 function convert() {
