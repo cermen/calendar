@@ -121,7 +121,7 @@ function solarToLunar(solarYear, solarMonth, solarDate) {
     let lunarMonth = 1;
     let lunarDate;
 
-    const days = (new Date(solarYear, solarMonth - 1, solarDate) - new Date(1950, 1, 17)) / (1000 * 60 * 60 * 24);
+    const days = (new Date(solarYear, solarMonth - 1, solarDate) - new Date(1950, 1, 16)) / (1000 * 60 * 60 * 24);
 
     let dayCount = 0;
     let temp_month;
@@ -154,7 +154,7 @@ function solarToLunar(solarYear, solarMonth, solarDate) {
 }
 
 function lunarToSolar(lunarYear, lunarMonth, lunarDate) {
-    let dateZero = new Date(1950, 1, 17);
+    let dateZero = new Date(1950, 1, 16);
 
     let daySum = 0;
     for (let y = 1950; y < lunarYear; y++) {
